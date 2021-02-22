@@ -27,9 +27,12 @@ import 'dotenv/config';
 // init server
 const server = express();
 
-// for easier deployment
+
+
+// for easier port management in deployment
 let port: number = 0;
 
+// check for enviroment variable and assign port 
 if(process.env.PORT != null) {
     port = parseInt(<string> process.env.PORT);
 } else {
@@ -39,8 +42,13 @@ if(process.env.PORT != null) {
 
 
 
-// for access
+// required for accessing
+// TODO research and apply cors options
 server.use(cors());
+
+// checks incoming request for type and if urlencoded.
+// TODO reasearch
+server.use(express.urlencoded({extended: false}));
 
 // using JSON as default
 server.use(express.json({type: 'application/json'}));
@@ -49,9 +57,27 @@ server.use(express.json({type: 'application/json'}));
 
 
 
-// test
+// test get
 server.get('/', (req, res) => {
-    res.send('Bruh');
+    console.log(req.body.msg)
+    try {
+        const msg = 'This is get: ' + req.body.msg;
+        res.json({msg: msg}).status(200);
+    } catch(err) {
+        res.json({err: err}).status(400);
+    }
+});
+
+// test post
+server.post('/', (req, res) => {
+    console.log(JSON.parse(JSON.stringify(req.body)))
+    try {
+        const msg = 'This is post: ' + req.body.msg;
+        res.json({msg: msg}).status(200);
+    } catch(err) {
+        res.json({err: err}).status(400);
+    }
+
 });
 
 
