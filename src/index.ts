@@ -4,6 +4,7 @@
 *
 *       Filename:   index.ts
 *       Pathname:   ./index.ts
+*       Language:   TypeScript
 *       Content:    Main entry point for server
 *
 *       License:    GPL-2.0
