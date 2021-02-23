@@ -18,8 +18,10 @@
 *       Last Edit:  22-02-2021
 */
 
-import cors from 'cors';
 import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import router from './router';
 import 'dotenv/config';
 
 
@@ -53,35 +55,15 @@ server.use(express.urlencoded({extended: false}));
 // using JSON as default
 server.use(express.json({type: 'application/json'}));
 
+// route all routes to router
+server.use('/', router);
 
+// connecting do MongoDB specified as ENV variable
+mongoose.connect(<string> process.env.MONGODB, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
 
-
-
-// test get
-server.get('/', (req, res) => {
-    console.log(req.body.msg)
-    try {
-        const msg = 'This is get: ' + req.body.msg;
-        res.json({msg: msg}).status(200);
-    } catch(err) {
-        res.json({err: err}).status(400);
-    }
+    console.log('Connected to MongoDB');
+    
 });
-
-
-// test post
-server.post('/', (req, res) => {
-    console.log(JSON.parse(JSON.stringify(req.body)))
-    try {
-        const msg = 'This is post: ' + req.body.msg;
-        res.json({msg: msg}).status(200);
-    } catch(err) {
-        res.json({err: err}).status(400);
-    }
-
-});
-
-
 
 // run server
 server.listen(port, () => {
