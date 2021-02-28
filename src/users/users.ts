@@ -22,7 +22,7 @@
 
 import { compare, hash } from 'bcrypt';
 import express from 'express'
-import { MongooseDocument } from 'mongoose';
+import { Document, MongooseDocument } from 'mongoose';
 import User from '../models/User';
 import { generateRandomString } from '../utils';
 
